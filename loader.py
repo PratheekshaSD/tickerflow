@@ -18,7 +18,7 @@ class Loader:
         try:
             self.connection=psycopg2.connect(
             host=self.host,
-            databse=self.database,
+            database=self.database,
             user=self.user,
             password=self.password,
             port=self.port 
@@ -30,4 +30,34 @@ class Loader:
             print(f"Connection failed: {e}")
             return False
         
+    def create_tables(self):
+        cursor =self.connection.cursor()
+        cursor.execute(
+            """CREATE TABLE IF NOT EXISTS stock_prices(
+            date DATE,
+            ticker VARCHAR,
+            open FLOAT,
+            high FLOAT, 
+            low FLOAT,
+            close FLOAT, 
+            volume BIGINT, 
+            daily_return FLOAT, 
+            avg7 FLOAT,
+            avg21 FLOAT, 
+            PRIMARY KEY(date,ticker)
+            );"""
+        )
 
+        cursor.execute(
+           """CREATE TABLE IF NOT EXISTS run_log( 
+            id SERIAL PRIMARY KEY,
+            run_timestamp TIMESTAMP, 
+            ticker VARCHAR ,
+            status VARCHAR,
+            rows_fetched INTEGER, 
+            error_messages TEXT
+            );"""
+        )
+
+        self.connection.commit()
+        cursor.close()
