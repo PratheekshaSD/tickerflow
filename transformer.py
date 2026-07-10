@@ -18,6 +18,8 @@ class Transformer:
         df['avg21']=df['Close'].rolling(window=21).mean()
         return df
     
+    
+    
 # ****TESTCODE***
 # if __name__=="__main__":
 #     from extractor import Extractor

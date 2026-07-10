@@ -45,3 +45,11 @@ def test_clean_data_types(raw_ohlcv_df):
     assert pd.api.types.is_datetime64_any_dtype(result['Date'])
     # assert result['Close'].dtypes==float
     assert pd.api.types.is_float_dtype(result['Close'])
+
+
+def test_compute_metrics_insufficient_data_returns_nan(raw_ohlcv_df_short):
+    transformer=Transformer()
+    result=transformer.compute_metrics(raw_ohlcv_df_short)
+
+    assert result['avg7'].isna().all()
+    assert result['avg21'].isna().all()

@@ -31,3 +31,19 @@ def raw_ohlcv_df_with_nan():
     df = pd.DataFrame(data, index=pd.date_range('2024-01-01', periods=3))
     df.index.name = 'Date'
     return df
+
+
+@pytest.fixture
+def raw_ohlcv_df_short():
+    data = {
+        'Open': [100.0, 101.0, 102.0],
+        'High': [105.0, 106.0, 107.0],
+        'Low': [99.0, 100.0, 101.0],
+        'Close': [104.0, 105.0, 106.0],
+        'Volume': [1000, 1100, 1200],
+        'Dividends': [0.0, 0.0, 0.0],
+        'Stock Splits': [0.0, 0.0, 0.0],
+    }
+    df = pd.DataFrame(data, index=pd.date_range('2024-01-01', periods=3))
+    df.index.name = 'Date'
+    return df
