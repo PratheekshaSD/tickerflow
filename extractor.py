@@ -1,6 +1,18 @@
 import yfinance as yf
 import time
 
+class InvalidTickerError(Exception):
+    pass
+
+class MaxRetriesExceededError(Exception):
+    pass
+
+
+
+
+
+
+
 
 class Extractor:
     """
@@ -26,18 +38,20 @@ class Extractor:
                   df=stock.history(start=start_date)#history() returns in DataFrame only.
 
                 if df.empty:
-                     print("Fetched Nothing")
+                    raise InvalidTickerError(f"No data found for ticker:{ticker}")
                 else:
                     print("Fetch: Success")
                     return df
+            except InvalidTickerError:
+                raise
             except Exception as e:
                 print(f"Something is fishy, Error {e}")
 
             if attempt<self.max_retries:
                 time.sleep(self.retry_delay)
+            else:
+                raise MaxRetriesExceededError(f"Failed to fetch {ticker} after {self.max_retries} attempts")
             
-        print("Ran out of Attempts")
-        return None
     
 if __name__ == "__main__":
     e = Extractor()
