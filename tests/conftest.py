@@ -1,5 +1,7 @@
 import pandas as pd
 import pytest
+from loader import Loader
+from datetime import date
 
 @pytest.fixture
 def raw_ohlcv_df():
@@ -47,3 +49,35 @@ def raw_ohlcv_df_short():
     df = pd.DataFrame(data, index=pd.date_range('2024-01-01', periods=3))
     df.index.name = 'Date'
     return df
+
+@pytest.fixture
+def test_loader():
+    loader=Loader(
+        host="localhost",
+        database="tickerflow_test",
+        user="postgres",
+        password="password"
+    )
+    loader.connect()
+    loader.create_tables()
+
+    yield loader
+
+    cursor=loader.connection.cursor()
+    cursor.execute("DELETE FROM stock_prices;")
+    cursor.execute("DELETE FROM run_log;")
+    loader.connection.commit()
+    cursor.close()
+
+fake_df = pd.DataFrame({
+    'Date': [date(2026, 1, 1)],
+    'Ticker': ['TCS.NS'],
+    'Open': [100.0],
+    'High': [105.0],
+    'Low': [99.0],
+    'Close': [102.0],
+    'Volume': [1000000],
+    'daily_return': [0.02],
+    'avg7': [101.5],
+    'avg21': [100.8]
+})
