@@ -2,6 +2,8 @@ import pandas as pd
 import pytest
 from loader import Loader
 from datetime import date
+import os
+from dotenv import load_dotenv
 
 @pytest.fixture
 def raw_ohlcv_df():
