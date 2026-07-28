@@ -38,7 +38,7 @@ class Extractor:
                     return df
             except InvalidTickerError:
                 raise
-            except Exception as e:
+            except Exception as e: #handles genric execption ,like network failures, connection resets,library issues, lets the retires handle them 
                 print(f"Something is fishy, Error {e}")
 
             if attempt<self.max_retries:
