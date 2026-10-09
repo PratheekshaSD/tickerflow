@@ -15,7 +15,7 @@ loader = Loader(
 if loader.connect():
     loader.create_tables()
 
-    pipeline = Pipeline(tickers=["TCS.NS", "INFY.NS", "RELIANCE.NS"], loader=loader)
+    pipeline = Pipeline(tickers=["TCS.NS", "INFY.NS", "RELIANCE.NS", "HDFCBANK.NS", "WIPRO.NS"], loader=loader)
     pipeline.run_forever()
 else:
     print("Could not connect to the database ,exiting pls pls do something *puppy eyes🎀🎀✨✨")

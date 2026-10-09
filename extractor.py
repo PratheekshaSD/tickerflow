@@ -45,8 +45,3 @@ class Extractor:
                 time.sleep(self.retry_delay)
             else:
                 raise MaxRetriesExceededError(f"Failed to fetch {ticker} after {self.max_retries} attempts")
-
-       
-          
-
-
