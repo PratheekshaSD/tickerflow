@@ -56,14 +56,14 @@ yfinance → Extractor → Transformer → Loader → PostgreSQL → FastAPI →
 tickerflow/
 ├── .github/
 │   └── workflows/
-│       └── ci.yml
-├── tests/
+│       └── ci.yml      # CI/CD pipeline: test → build → push 
+├── tests/              # pytest suite (extractor, transformer, loader, pipeline)
 ├── api.py              # FastAPI REST API — 3 endpoints, Swagger docs
-├── extractor.py
-├── transformer.py
-├── loader.py
-├── pipeline.py
-├── main.py
+├── extractor.py        # Fetches raw OHLCV data from yfinance with retry logic
+├── transformer.py      # Cleans data and computes moving 
+├── loader.py           # Handles all PostgreSQL operations (upsert, logging)
+├── pipeline.py         # Orchestrates ETL flow, runs forever 
+├── main.py             # Entry point — configure credentials and start pipeline
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
